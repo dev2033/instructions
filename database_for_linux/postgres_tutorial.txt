@@ -1,3 +1,5 @@
-GRANT SELECT ON mytable TO PUBLIC;
-GRANT SELECT, UPDATE, INSERT ON mytable TO admin;
-GRANT SELECT (col1), UPDATE (col1) ON mytable TO miriam_rw;
+Данные команды дают права на редактирование таблиц в БД отдельному пользователю:
+
+GRANT SELECT ON table_name TO PUBLIC;
+GRANT SELECT, UPDATE, INSERT ON table_name TO user_name;
+GRANT SELECT (col1), UPDATE (col1) ON table_name TO user_name;
