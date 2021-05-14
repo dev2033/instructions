@@ -1,51 +1,56 @@
-#####################################################
-	Настройка ДЕБИАН сервера c помощью supervisor
-#####################################################
+<h1>Настройка ДЕБИАН сервера c помощью supervisor</h1>
 
 
+***Обновление пакетов***
 
-
--------------------------------------------------------------------------------
+```
 sudo apt-get update ; \
 sudo apt-get install -y vim mosh tmux htop git curl wget unzip zip gcc build-essential make
+```
 
 
--------------------------------------------------------------------------------
-Настройка SSH:
+***Настройка SSH:***
 
+```
 sudo vim /etc/ssh/sshd_config
     AllowUsers www
     PermitRootLogin no
     PasswordAuthentication no
+```
 
 
--------------------------------------------------------------------------------
-Перезапуск SSH сервера и изменение пароля пользователя:
+***Перезапуск SSH сервера и изменение пароля пользователя:***
 
+```
 sudo service ssh restart
 sudo passwd www
+```
 
 
--------------------------------------------------------------------------------
-Установка ПО:
+***Установка ПО:***
 
+```
 sudo apt-get install -y tree redis-server nginx zlib1g-dev libbz2-dev libreadline-dev llvm libncurses5-dev libncursesw5-dev xz-utils tk-dev liblzma-dev python3-dev python-imaging python3-lxml libxslt-dev python-libxml2 python-libxslt1 libffi-dev libssl-dev python-dev gnumeric libsqlite3-dev libpq-dev libxml2-dev libxslt1-dev libjpeg-dev libfreetype6-dev libcurl4-openssl-dev supervisor
+```
 
 
--------------------------------------------------------------------------------
-Установка python 3.7 из исходников
+***Установка python 3.7 из исходников***
 
+```
 mkdir ~/code
+```
 
-Build from source python 3.7, install with prefix to ~/.python folder:
+*Build from source python 3.7, install with prefix to ~/.python folder:*
 
+```
 wget https://www.python.org/ftp/python/3.7.3/Python-3.7.3.tgz ; \
 tar xvf Python-3.7.* ; \
 cd Python-3.7.3 ; \
 mkdir ~/.python ; \
 ./configure --enable-optimizations --prefix=/home/www/.python ; \
 make -j8 ; \
-sudo make altinstall
+sudo make altinstall 
+```
 
 
 Now python3.7 in `/home/www/.python/bin/python3.7`. Update pip:
