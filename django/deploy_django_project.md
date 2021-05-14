@@ -155,3 +155,5 @@ netstat -tulpn | grep :80
 6. https://djangocentral.com/deploy-django-with-nginx-gunicorn-postgresql-and-lets-encrypt-ssl-on-ubuntu/
 
 7. https://github.com/nginx-proxy/nginx-proxy
+
+8. https://github.com/dev2033/django-deployment-template

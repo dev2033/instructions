@@ -1,8 +1,8 @@
-SECRET_KEY=wkjnijgno?:7984753857MKLJKMIlkmlhugufyuohkjhiuuuGGKGHKGHKJo55*%@_
+SECRET_KEY=oeirrghuig58tuh38tu304ut034jtoi34jgi3j[03jgi3og]
 DEBUG=1
 DATABASE_URL=postgresql://postgres:postgres@db:5432/postgres
-POSTGRES_DB=tattoo_database_django_postgres
-POSTGRES_USER=todd
+POSTGRES_DB=name_db
+POSTGRES_USER=user_name
 POSTGRES_PASSWORD=123456
 ALLOWED_HOSTS=127.0.0.1,0.0.0.0
 

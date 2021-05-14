@@ -11,7 +11,7 @@ GRANT SELECT (col1), UPDATE (col1) ON table_name TO user_name;
 
     local   all             all                                     peer
 
-в
+    в
 
     local   all             all                                     md5
 
