@@ -52,27 +52,28 @@ make -j8 ; \
 sudo make altinstall 
 ```
 
+*Now python3.7 in `/home/www/.python/bin/python3.7`. Update pip:*
 
-Now python3.7 in `/home/www/.python/bin/python3.7`. Update pip:
-
+```
 sudo /home/www/.python/bin/python3.7 -m pip install -U pip
+```
 
+*Ok, now we can pull our project from Git repository (or create own), create and activate Python virtual environment:*
 
-Ok, now we can pull our project from Git repository (or create own), create and activate Python virtual environment:
-
+```
 cd code
 git pull project_git
 cd project_dir
 python3.7 -m venv env
 . ./env/bin/activate
+```
 
 
+***Установка и настройка PostgreSQL***
 
--------------------------------------------------------------------------------
-Установка и настройка PostgreSQL
+*Install PostgreSQL 11 and configure locales.*
 
-Install PostgreSQL 11 and configure locales.
-
+```
 wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add - ; \
 RELEASE=$(lsb_release -cs) ; \
 echo "deb http://apt.postgresql.org/pub/repos/apt/ ${RELEASE}"-pgdg main | sudo tee  /etc/apt/sources.list.d/pgdg.list ; \
@@ -84,27 +85,33 @@ export LANG=ru_RU.UTF-8 ; \
 export LC_ALL=ru_RU.UTF-8 ; \
 sudo locale-gen ru_RU.UTF-8 ; \
 sudo dpkg-reconfigure locales
+```
 
 
-Добавление локалей в `/etc/profile`:
+***Добавление локалей в `/etc/profile`:***
 
+```
 sudo vim /etc/profile
     export LANGUAGE=ru_RU.UTF-8
     export LANG=ru_RU.UTF-8
-    export LC_ALL=ru_RU.UTF-8
+    export LC_ALL=ru_RU.UTF-8	
+```
 
-Изменения пароля postgres и экспорт названия(Настройка):
 
+*Изменения пароля postgres и экспорт названия(Настройка*):
+
+```
 sudo passwd postgres
 su - postgres
 export PATH=$PATH:/usr/lib/postgresql/11/bin
 createdb --encoding UNICODE dbms_db --username postgres
 exit
+```
 
 
--------------------------------------------------------------------------------
-Создание БД, настройка, права пользователя:
+***Создание БД, настройка, права пользователя:***
 
+```
 sudo -u postgres psql
 postgres=# ...
 create user dbms with password 'some_password';
@@ -119,40 +126,46 @@ ALTER EXTENSION pg_trgm SET SCHEMA public;
 UPDATE pg_opclass SET opcdefault = true WHERE opcname='gin_trgm_ops';
 \q
 exit
+```
 
--------------------------------------------------------------------------------
-Устновка и настройка supervisor
 
+***Устновка и настройка supervisor***
+
+```
 sudo apt install supervisor
+```
 
 
+**`vim /home/www/code/project/bin/start_gunicorn.sh` - скрипт для запуска gunicorn**
 
-vim /home/www/code/project/bin/start_gunicorn.sh - скрипт для запуска gunicorn
-
-	#!/bin/bash
-	source /home/www/code/project/env/bin/activate
-	source /home/www/code/project/env/bin/postactivate
-	exec gunicorn  -c "/home/www/code/project/gunicorn_config.py" project.wsgi
-
-
-
-chmod +x /home/www/code/project/bin/start_gunicorn.sh
+```
+#!/bin/bash
+source /home/www/code/project/env/bin/activate
+source /home/www/code/project/env/bin/postactivate
+exec gunicorn  -c "/home/www/code/project/gunicorn_config.py" project.wsgi
+```
 
 
-vim project/supervisor.salesbeat.conf - для символьной ссылки
-
-	[program:www_gunicorn]
-	command=/home/www/code/project/bin/start_gunicorn.sh
-	user=www
-	process_name=%(program_name)s
-	numprocs=1
-	autostart=true
-	autorestart=true
-	redirect_stderr=true
+**`chmod +x /home/www/code/project/bin/start_gunicorn.sh`**
 
 
-Конфиг файл для gunicorn(gunicorn.conf.py):
+**`vim project/supervisor.salesbeat.conf` - для символьной ссылки**
 
+```
+[program:www_gunicorn]
+command=/home/www/code/project/bin/start_gunicorn.sh
+user=www
+process_name=%(program_name)s
+numprocs=1
+autostart=true
+autorestart=true
+redirect_stderr=true
+```
+
+
+***Конфиг файл для gunicorn(gunicorn.conf.py):***
+
+```
 command = '/home/www/code/project/env/bin/gunicorn'
 pythonpath = '/home/www/code/project/project'
 bind = '127.0.0.1:8001'
@@ -161,4 +174,4 @@ user = 'www'
 limit_request_fields = 32000
 limit_request_field_size = 0
 raw_env = 'DJANGO_SETTINGS_MODULE=project.settings'
-
+```
